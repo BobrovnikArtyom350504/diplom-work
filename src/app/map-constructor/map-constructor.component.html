@@ -1,0 +1,165 @@
+<div class="map-constructor">
+  <div class="map-settings">
+    <md-card>
+      <md-card-title>
+        Create map
+        <button (click)="toggleMapSettingsVisibility()" class="right" md-icon-button>
+          <md-icon *ngIf="mapSettingsVisible;else expandMore">expand_less</md-icon>
+        </button>
+      </md-card-title>
+      <div cardContainer [hidden]="!mapSettingsVisible" class="card-container">
+        <md-card-subtitle>
+          Map settings
+        </md-card-subtitle>
+        <div class="card-content">
+          <md-input-container>
+            <input #mapWidth mdInput placeholder="Map width" [value]="canvas.width * 0.75">
+          </md-input-container>
+          <md-input-container>
+            <input #mapLength mdInput placeholder="Map Length" [value]="canvas.width">
+          </md-input-container>
+        </div>
+        <div class="card-content">
+          <md-input-container>
+            <input #layerCount mdInput placeholder="View layer count">
+          </md-input-container>
+          <md-input-container>
+            <input #maxHeight mdInput placeholder="Max area height">
+          </md-input-container>
+        </div>
+        <div class="card-content">
+          <md-input-container>
+            <input #resistance mdInput placeholder="Area resistance" [value]="0">
+          </md-input-container>
+          <button class="right" md-fab color="primary" (click)="createMap(mapWidth.value, mapLength.value,
+                                                            maxHeight.value, layerCount.value)">
+            <md-icon>done</md-icon>
+          </button>
+        </div>
+      </div>
+    </md-card>
+    <md-card>
+      <md-card-title>
+        Rock constructor
+        <button (click)="toggleRockConstructorVisibility()" class="right" md-icon-button>
+          <md-icon *ngIf="rockConstructorVisible;else expandMore">expand_less</md-icon>
+        </button>
+      </md-card-title>
+      <div [hidden]="!rockConstructorVisible">
+        <md-card-subtitle>
+          Add rock
+        </md-card-subtitle>
+        <div class="card-content">
+          <md-input-container>
+            <input #rockSize mdInput placeholder="Rock size">
+          </md-input-container>
+          <md-input-container>
+            <input #rockResistance mdInput placeholder="Resistance">
+          </md-input-container>
+        </div>
+        <div class="card-content">
+          <md-input-container>
+            <input #xPos mdInput placeholder="X position">
+          </md-input-container>
+          <md-input-container>
+            <input #yPos mdInput placeholder="Y position">
+          </md-input-container>
+        </div>
+        <div class="card-content">
+          <md-input-container>
+            <input #rockHeight mdInput placeholder="Rock max height">
+          </md-input-container>
+          <md-input-container>
+            <input #rockAngle mdInput placeholder="Rock incline angle">
+          </md-input-container>
+        </div>
+        <div class="card-content flex">
+          <button md-fab color="primary" (click)="editRock({
+            x: xPos.value,
+            y: yPos.value,
+            size: rockSize.value,
+            height: rockHeight.value,
+            angel: rockAngle.value,
+            resistance: rockResistance.value
+          })">
+            <md-icon>done</md-icon>
+          </button>
+          <button md-fab color="primary" (click)="addRock({
+            x: xPos.value,
+            y: yPos.value,
+            size: rockSize.value,
+            height: rockHeight.value,
+            angel: rockAngle.value,
+            resistance: rockResistance.value
+          })">
+            <md-icon>add</md-icon>
+          </button>
+          <button md-fab color="primary" (click)="deleteRock()">
+            <md-icon>delete</md-icon>
+          </button>
+        </div>
+      </div>
+    </md-card>
+    <md-card>
+      <md-card-title>
+        Robots constructor
+        <button (click)="toggleRobotsConstructorVisibility()" class="right" md-icon-button>
+          <md-icon *ngIf="robotsConstructorVisible;else expandMore">expand_less</md-icon>
+        </button>
+      </md-card-title>
+      <div [hidden]="!robotsConstructorVisible">
+        <md-card-subtitle>
+          Add robot
+        </md-card-subtitle>
+        <div class="card-content">
+          <md-input-container>
+            <input #robotSize mdInput placeholder="Robot size">
+          </md-input-container>
+          <md-input-container>
+            <input #maxInclineAngle mdInput placeholder="Max incline angle">
+          </md-input-container>
+        </div>
+        <div class="card-content">
+          <md-input-container>
+            <input #robotXpos mdInput placeholder="X position">
+          </md-input-container>
+          <md-input-container>
+            <input #robotYpos mdInput placeholder="Y position">
+          </md-input-container>
+        </div>
+        <div class="card-content">
+          <md-input-container>
+            <input #robotAngle mdInput placeholder="angle">
+          </md-input-container>
+        </div>
+        <div class="card-content flex">
+          <button md-fab color="primary" (click)="editRobot(maxInclineAngle.value, robotSize.value, {
+            x: robotXpos.value,
+            y: robotYpos.value,
+            angle: robotAngle.value
+          }
+          )">
+            <md-icon>done</md-icon>
+          </button>
+          <button md-fab color="primary" (click)="addRobot(maxInclineAngle.value, robotSize.value, {
+            x: robotXpos.value,
+            y: robotYpos.value,
+            angle: robotAngle.value
+          }
+          )">
+            <md-icon>add</md-icon>
+          </button>
+          <button md-fab color="primary" (click)="deleteRobot()">
+            <md-icon>delete</md-icon>
+          </button>
+        </div>
+      </div>
+    </md-card>
+  </div>
+  <div #wrapper class="canvas-wrapper">
+    <canvas #canvas [width]="wrapper.offsetWidth" [height]="canvas.width * 0.75"></canvas>
+  </div>
+</div>
+<template #expandMore>
+  <md-icon>expand_more</md-icon>
+</template>

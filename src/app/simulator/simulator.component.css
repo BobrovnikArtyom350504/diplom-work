@@ -1,0 +1,23 @@
+md-tab-group {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.simulator-content {
+  display: flex;
+  justify-content: space-between;
+}
+aside {
+  flex: 18% 0 0;
+}
+.canvas-wrapper {
+  flex: 60% 0 0;
+}
+.player {
+  display: flex;
+  justify-content: center;
+}
+.player > button {
+  margin: 0 10px;
+}
+

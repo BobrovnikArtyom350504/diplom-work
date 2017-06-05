@@ -1,0 +1,30 @@
+.map-constructor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.canvas-wrapper {
+  flex: 60% 0 0;
+}
+.map-settings {
+  flex: 35% 0 0;
+}
+.card-content md-input-container:first-child {
+  margin-right: 20px;
+}
+.card-content:not(:last-child) {
+  margin-bottom: 20px;
+}
+md-card {
+  margin-bottom: 30px;
+}
+button.right {
+  float: right;
+}
+.card-content.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+

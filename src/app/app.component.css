@@ -1,0 +1,10 @@
+a {
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  display: inline-block;
+}
+md-tab-group {
+  margin-bottom: 30px;
+}

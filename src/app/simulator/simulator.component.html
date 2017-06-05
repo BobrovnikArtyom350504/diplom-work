@@ -1,0 +1,25 @@
+<md-tab-group>
+  <md-tab *ngFor="let robot of map?.objects; let i = index">
+    <ng-template  md-tab-label>
+      <div (click)="setCurrentRobotIndex(i)">Robot {{i}}</div>
+    </ng-template>
+  </md-tab>
+</md-tab-group>
+<div class="simulator-content">
+<aside class="logger"></aside>
+<div #wrapper class="canvas-wrapper">
+<canvas #canvas [width]="wrapper.offsetWidth" [height]="canvas.width * 0.75"></canvas>
+  <md-card class="player">
+    <button md-fab color="primary" (click)="run()">
+      <md-icon>play_arrow</md-icon>
+    </button>
+    <button md-fab color="primary" (click)="stop()">
+      <md-icon>pause</md-icon>
+    </button>
+    <button md-fab color="primary" (click)="doStep()">
+      <md-icon>skip_next</md-icon>
+    </button>
+  </md-card>
+</div>
+<aside class="main-loop"></aside>
+</div>

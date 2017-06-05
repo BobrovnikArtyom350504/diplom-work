@@ -1,0 +1,16 @@
+<div class="code-editor">
+  <md-tab-group>
+    <md-tab *ngFor="let robot of map?.objects; let i = index">
+      <ng-template  md-tab-label>
+        <div (click)="setCurrentRobotIndex(i)">Robot {{i}}</div>
+      </ng-template>
+    </md-tab>
+  </md-tab-group>
+  <md-input-container>
+    <textarea #scriptArea mdInput placeholder="Script for robot" rows="20" cols="120" [value]="scripts[currentRobotIndex] || ''"></textarea>
+  </md-input-container>
+  <button md-fab color="primary" (click)="setCurrentRobotScript(scriptArea.value)">
+    <md-icon>done</md-icon>
+  </button>
+</div>
+
