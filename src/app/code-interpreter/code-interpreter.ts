@@ -1,8 +1,8 @@
 import { TSMap as Map } from "typescript-map";
-import {MainLoopLogger} from "./main-loop-logger";
 
 export class CodeInterpreter {
     private processedScript: any;
+    private stepCallback: any;
     private executionSpeed: number = 1000;
     private isStopped: boolean = true;
     private currentRow: number = 0;
@@ -22,6 +22,22 @@ export class CodeInterpreter {
             this.addVariables(availableVariables);
         if(script)
             this.processScript();
+    }
+
+    setOnStepExecuted(callback: any) {
+      this.stepCallback = callback;
+    }
+
+    getCurrentRow() {
+      return this.currentRow;
+    }
+
+    removeOnStepExecutedCallback() {
+      this.stepCallback = () => {};
+    }
+
+    onStepExecute(stringNumber: number) {
+      this.stepCallback(stringNumber);
     }
 
     addVariables(availableVariables: Map<string, any>) {
@@ -69,19 +85,33 @@ export class CodeInterpreter {
         this.executedBreakpoints = [];
         this.processScript();
         this.currentRow = 0;
+        this.onStepExecute(this.currentRow);
         this.run();
     }
 
+    initScript() {
+      this.executedBreakpoints = [];
+      this.processScript();
+      this.currentRow = 0;
+      this.onStepExecute(this.currentRow);
+    }
+
+    getBreakpoints() {
+      return this.breakpoints;
+    }
+
     doStep() {
+      this.isStopped = true;
         if(this.isStopped) {
             if(this.breakpoints.indexOf(this.currentRow) >= 0)
                 this.executedBreakpoints.push(this.currentRow);
             let step = this.processedScript.next();
-            this.currentRow++;
-            MainLoopLogger.addLog(this.id, step.value, this.currentRow);
             if(step.done) {
-                MainLoopLogger.clearLogs(this.id);
-                this.onExecuteCallback();
+              this.initScript();
+            }
+            else {
+              this.currentRow++;
+              this.onStepExecute(this.currentRow);
             }
         }
     }
@@ -101,11 +131,10 @@ export class CodeInterpreter {
             setTimeout(()=>{
                 if(!this.isStopped) {
                     let step = this.processedScript.next();
-                    MainLoopLogger.addLog(this.id, step.value, this.currentRow);
                     this.currentRow++;
+                    this.onStepExecute(this.currentRow);
                     if(!step.done) this.doSteps();
                     else {
-                        MainLoopLogger.clearLogs(this.id);
                         this.onExecuteCallback();
                     }
                 }

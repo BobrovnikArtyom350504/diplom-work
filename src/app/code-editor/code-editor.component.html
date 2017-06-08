@@ -7,7 +7,7 @@
     </md-tab>
   </md-tab-group>
   <md-input-container>
-    <textarea #scriptArea mdInput placeholder="Script for robot" rows="20" cols="120" [value]="scripts[currentRobotIndex] || ''"></textarea>
+    <textarea #scriptArea mdInput placeholder="Script for robot" rows="20" cols="120" [value]="scripts[currentRobotIndex] || instruction"></textarea>
   </md-input-container>
   <button md-fab color="primary" (click)="setCurrentRobotScript(scriptArea.value)">
     <md-icon>done</md-icon>

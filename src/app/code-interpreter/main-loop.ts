@@ -19,6 +19,22 @@ export class MainLoop {
         }
     }
 
+    static setOnStepCallback(id: number, callback: any) {
+      loops.get(id).setOnStepExecuted(callback);
+    }
+
+    static getCurrentRow(id: number) {
+      return loops.get(id).getCurrentRow();
+    }
+
+    static removeStepCallback(id: number) {
+      loops.get(id).removeOnStepExecutedCallback();
+    }
+
+    static getBreackpoints(id: number) {
+      return loops.get(id).getBreakpoints();
+    }
+
     static setOnExecutedCallback(id: number, callback: any) {
         loops.get(id).setOnExecutedCallback(()=>{
             loops.get(id).rerun();

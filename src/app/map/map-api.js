@@ -80,6 +80,24 @@ var MapApi = (function () {
             this.map.objects[id].rotate(angle);
         }
     };
+    MapApi.prototype.rotateOn = function (id, angleOffset) {
+        var angle = this.map.objects[id].object.geolocation.angle + angleOffset;
+        this.rotate(id, angle);
+    };
+    MapApi.prototype.getLocation = function (id) {
+        var object = this.map.objects[id].object;
+        var geolaction = object.geolocation;
+        var inclineAngle = this.getInclineAngle(id);
+        var centerHeight = this.getBlock(Math.floor(geolaction.y), Math.floor(geolaction.x)).height;
+        var location = {
+            x: geolaction.x,
+            y: geolaction.y,
+            angle: geolaction.angle,
+            inclineAngle: inclineAngle,
+            centerHeight: centerHeight
+        };
+        return location;
+    };
     MapApi.prototype.getBlock = function (row, col) {
         return this.map.areaController.area.getBlock(row, col);
     };

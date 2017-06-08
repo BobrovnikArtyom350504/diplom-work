@@ -10,8 +10,10 @@ var Robot = (function () {
         this.getId = function () {
             return id;
         };
-        this.movement.move = function (speed) { return mapApi.move(id, speed); };
-        this.movement.rotate = function (angle) { return mapApi.rotate(id, angle); };
+        this.movement.move = function (speed) { return mapApi.move(id, +speed); };
+        this.movement.rotateTo = function (angle) { return mapApi.rotate(id, +angle); };
+        this.movement.rotateOn = function (angleOffset) { return mapApi.rotateOn(id, +angleOffset); };
+        this.getLocation = function () { return mapApi.getLocation(id); };
         this.communication = new robot_communication_1.RobotCommunication(id);
     }
     return Robot;

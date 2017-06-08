@@ -25,10 +25,19 @@ var MapConstructorComponent = (function () {
         this.canvasContext = canvas.getContext('2d');
     };
     MapConstructorComponent.prototype.addRobot = function (maxInclineAngle, robotSize, geolocation) {
+        maxInclineAngle = +(maxInclineAngle);
+        robotSize = +(robotSize);
+        geolocation.x = +(geolocation.x);
+        geolocation.y = +(geolocation.y);
+        geolocation.angle = +(geolocation.angle);
         this.map.addObject(new map_object_1.MapObject(geolocation, maxInclineAngle, robotSize));
     };
     ;
     MapConstructorComponent.prototype.editRobot = function (maxInclineAngle, robotSize, geolocation) {
+        maxInclineAngle = +(maxInclineAngle);
+        robotSize = +(robotSize);
+        geolocation.x = +(geolocation.x);
+        geolocation.y = +(geolocation.y);
         this.deleteRobot();
         this.addRobot(maxInclineAngle, robotSize, geolocation);
     };
@@ -47,6 +56,12 @@ var MapConstructorComponent = (function () {
         this.rockConstructorVisible = !this.rockConstructorVisible;
     };
     MapConstructorComponent.prototype.editRock = function (rock) {
+        rock.size = +(rock.size);
+        rock.height = +(rock.height);
+        rock.angel = +(rock.angel);
+        rock.x = +(rock.x);
+        rock.y = +(rock.y);
+        rock.resistance = +(rock.resistance);
         for (var prop in rock)
             rock[prop] = Number(rock[prop]);
         if (rock.x + rock.size < this.map.areaController.area.getLength() &&
@@ -56,6 +71,12 @@ var MapConstructorComponent = (function () {
         }
     };
     MapConstructorComponent.prototype.addRock = function (rock) {
+        rock.size = +(rock.size);
+        rock.height = +(rock.height);
+        rock.angel = +(rock.angel);
+        rock.x = +(rock.x);
+        rock.y = +(rock.y);
+        rock.resistance = +(rock.resistance);
         for (var prop in rock)
             rock[prop] = Number(rock[prop]);
         this.map.addRock(rock);
@@ -68,6 +89,10 @@ var MapConstructorComponent = (function () {
         this.canvasContext.clearRect(0, 0, canvas.width, canvas.height);
     };
     MapConstructorComponent.prototype.createMap = function (width, length, maxHeight, layersCount) {
+        width = +(width);
+        length = +(length);
+        maxHeight = +(maxHeight);
+        layersCount = +(layersCount);
         this.width = Math.floor(width);
         this.length = Math.floor(length);
         this.maxHeight = maxHeight;

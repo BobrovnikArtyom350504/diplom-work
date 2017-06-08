@@ -8,11 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var app_state_1 = require("../app-state/app-state");
+var instruction_1 = require("../simulator/instruction");
 var CodeEditorComponent = (function () {
     function CodeEditorComponent() {
         this.map = app_state_1.default.map;
         this.scripts = app_state_1.default.scripts;
         this.currentRobotIndex = 0;
+        this.instruction = instruction_1.instruction;
     }
     CodeEditorComponent.prototype.setCurrentRobotIndex = function (index) {
         this.currentRobotIndex = index;

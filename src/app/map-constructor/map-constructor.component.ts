@@ -29,10 +29,21 @@ export class MapConstructorComponent implements AfterViewInit{
   }
 
   addRobot(maxInclineAngle: number, robotSize: number, geolocation: Geolocation) {
+    maxInclineAngle = +(maxInclineAngle);
+    robotSize = +(robotSize);
+    geolocation.x = +(geolocation.x);
+    geolocation.y = +(geolocation.y);
+    geolocation.angle = +(geolocation.angle);
     this.map.addObject(new MapObject(geolocation, maxInclineAngle, robotSize));
   };
 
+
+
   editRobot(maxInclineAngle: number, robotSize: number, geolocation: Geolocation) {
+    maxInclineAngle = +(maxInclineAngle);
+    robotSize = +(robotSize);
+    geolocation.x = +(geolocation.x);
+    geolocation.y = +(geolocation.y);
     this.deleteRobot();
     this.addRobot(maxInclineAngle, robotSize, geolocation);
   }
@@ -56,6 +67,12 @@ export class MapConstructorComponent implements AfterViewInit{
   }
 
   editRock(rock: Rock) {
+    rock.size = +(rock.size);
+    rock.height = +(rock.height);
+    rock.angel = +(rock.angel);
+    rock.x = +(rock.x);
+    rock.y = +(rock.y);
+    rock.resistance = +(rock.resistance);
     for(let prop in rock)
       rock[prop] = Number(rock[prop]);
     if(rock.x + rock.size < this.map.areaController.area.getLength() &&
@@ -66,6 +83,12 @@ export class MapConstructorComponent implements AfterViewInit{
   }
 
   addRock(rock: Rock) {
+    rock.size = +(rock.size);
+    rock.height = +(rock.height);
+    rock.angel = +(rock.angel);
+    rock.x = +(rock.x);
+    rock.y = +(rock.y);
+    rock.resistance = +(rock.resistance);
     for (let prop in rock)
       rock[prop] = Number(rock[prop]);
     this.map.addRock(rock);
@@ -81,6 +104,10 @@ export class MapConstructorComponent implements AfterViewInit{
   }
 
   createMap(width: number, length: number, maxHeight: number, layersCount: number) {
+    width = +(width);
+    length = +(length);
+    maxHeight = +(maxHeight);
+    layersCount = +(layersCount);
     this.width = Math.floor(width);
     this.length = Math.floor(length);
     this.maxHeight = maxHeight;

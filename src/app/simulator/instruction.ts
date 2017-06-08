@@ -1,0 +1,12 @@
+export let instruction = `robot.movement.rotateOn(50);
+robot.movement.rotateTo(150);
+robot.movement.move(50);
+robot.getLocation();
+robot.communication.sendTo('Message text', 0);
+robot.communication.send('Message text');
+robot.communication.createGroup();
+robot.communication.disconnectGroup(0);
+robot.communication.connectGroup(0);
+robot.communication.sendGroup('Message text', 0);
+console.log(robot.communication.receive());
+robot.communication.deleteGroup(0);`;

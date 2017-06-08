@@ -1,22 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var typescript_map_1 = require("typescript-map");
-var logMap = new typescript_map_1.TSMap();
 var MainLoopLogger = (function () {
     function MainLoopLogger() {
     }
-    MainLoopLogger.getLogs = function (id) {
-        return logMap.get(id);
+    MainLoopLogger.getCurrentRow = function (id) {
+        debugger;
+        if (!this.loops[id])
+            this.loops[id] = { currentRow: 0 };
+        return this.loops[id];
     };
-    MainLoopLogger.addLog = function (id, string, stringNumber) {
-        if (!logMap.has(id))
-            logMap.set(id, []);
-        logMap.get(id).push({ stringNumber: stringNumber, string: string });
-    };
-    MainLoopLogger.clearLogs = function (id) {
-        logMap.set(id, []);
+    MainLoopLogger.setCurrentRow = function (id, stringNumber) {
+        debugger;
+        if (this.loops[id])
+            this.loops[id].currentRow = stringNumber;
+        else
+            this.loops[id] = { currentRow: stringNumber };
     };
     return MainLoopLogger;
 }());
+MainLoopLogger.loops = [];
 exports.MainLoopLogger = MainLoopLogger;
 //# sourceMappingURL=main-loop-logger.js.map

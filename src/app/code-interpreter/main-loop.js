@@ -21,6 +21,18 @@ var MainLoop = (function () {
             loops.set(id, loop_1);
         }
     };
+    MainLoop.setOnStepCallback = function (id, callback) {
+        loops.get(id).setOnStepExecuted(callback);
+    };
+    MainLoop.getCurrentRow = function (id) {
+        return loops.get(id).getCurrentRow();
+    };
+    MainLoop.removeStepCallback = function (id) {
+        loops.get(id).removeOnStepExecutedCallback();
+    };
+    MainLoop.getBreackpoints = function (id) {
+        return loops.get(id).getBreakpoints();
+    };
     MainLoop.setOnExecutedCallback = function (id, callback) {
         loops.get(id).setOnExecutedCallback(function () {
             loops.get(id).rerun();

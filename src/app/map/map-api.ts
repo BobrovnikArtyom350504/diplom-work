@@ -38,7 +38,7 @@ export class MapApi {
                     smth -= 1;
                 else
                     smth -= 1 / resistance;
-                if(smth >= 0) { 
+                if(smth >= 0) {
                     if (
                         this.getInclineAngle(id, angle, offsetX * pixels, offsetY * pixels) < maxInclineAngle) {
                         position.y += offsetY;
@@ -84,6 +84,26 @@ export class MapApi {
             this.map.areaController.redraw();
             this.map.objects[id].rotate(angle);
         }
+    }
+
+    rotateOn(id: number, angleOffset: number) {
+          let angle = this.map.objects[id].object.geolocation.angle + angleOffset;
+          this.rotate(id, angle);
+    }
+
+    getLocation(id: number) {
+          let object = this.map.objects[id].object;
+          let geolaction = object.geolocation;
+          let inclineAngle = this.getInclineAngle(id);
+          let centerHeight = this.getBlock(Math.floor(geolaction.y), Math.floor(geolaction.x)).height;
+          let location = {
+              x: geolaction.x,
+              y: geolaction.y,
+              angle: geolaction.angle,
+              inclineAngle: inclineAngle,
+              centerHeight: centerHeight
+          };
+          return location;
     }
 
     private getBlock(row: number, col: number): AreaBlock{

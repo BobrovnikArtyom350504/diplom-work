@@ -4,7 +4,7 @@ var Services;
 (function (Services) {
     var IdGenerator = (function () {
         function IdGenerator() {
-            this.id = 1;
+            this.id = 0;
         }
         IdGenerator.prototype.nextId = function () {
             return this.id++;

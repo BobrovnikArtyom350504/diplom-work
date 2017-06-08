@@ -9,6 +9,7 @@ export class Robot {
     communication: RobotCommunication;
     movement: any = {};
     getId: () => number;
+    getLocation: () => {};
 
     constructor(
       mapApi: MapApi
@@ -17,8 +18,10 @@ export class Robot {
         this.getId = () => {
             return id;
         };
-        this.movement.move = (speed: number) => mapApi.move(id, speed);
-        this.movement.rotate = (angle: number) => mapApi.rotate(id, angle);
+        this.movement.move = (speed: number) => mapApi.move(id, +speed);
+        this.movement.rotateTo = (angle: number) => mapApi.rotate(id, +angle);
+        this.movement.rotateOn = (angleOffset: number) => mapApi.rotateOn(id, +angleOffset);
+        this.getLocation = () => mapApi.getLocation(  id);
         this.communication = new RobotCommunication(id);
     }
 }

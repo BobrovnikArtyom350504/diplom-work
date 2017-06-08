@@ -6,7 +6,6 @@
   </md-tab>
 </md-tab-group>
 <div class="simulator-content">
-<aside class="logger"></aside>
 <div #wrapper class="canvas-wrapper">
 <canvas #canvas [width]="wrapper.offsetWidth" [height]="canvas.width * 0.75"></canvas>
   <md-card class="player">
@@ -19,7 +18,20 @@
     <button md-fab color="primary" (click)="doStep()">
       <md-icon>skip_next</md-icon>
     </button>
+    <div class="delay-settings">
+    <md-input-container>
+      <input #speed mdInput placeholder="Delay">
+    </md-input-container>
+    <button md-fab color="primary" (click)="setSpeed(speed.value)">
+      <md-icon>done</md-icon>
+    </button>
+    </div>
   </md-card>
 </div>
-<aside class="main-loop"></aside>
+<aside class="main-loop">
+  <div class="row" (click)="toggleBreackPoint(i)" *ngFor="let row of currentScriptRows; let i = index" [class.current]="i == currentRow">
+    <span [class.breackpoint]="breakpoints.indexOf(i) >=0" class="number">{{i}}</span>
+    <span class="string">{{row}}</span>
+  </div>
+</aside>
 </div>

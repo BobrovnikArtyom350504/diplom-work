@@ -8,16 +8,45 @@ md-tab-group {
   justify-content: space-between;
 }
 aside {
-  flex: 18% 0 0;
+  flex: 28% 0 0;
 }
 .canvas-wrapper {
-  flex: 60% 0 0;
+  flex: 70% 0 0;
 }
 .player {
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 .player > button {
   margin: 0 10px;
 }
+.row.current {
+  background: darkseagreen;
+}
+.row {
+  margin: 5px 0;
+  padding: 3px 0;
+  background: #b4c5c3;
+  padding: 5px;
+  cursor: pointer;
+}
+.row .number {
+  display: inline-block;
+  background: #f1efef;
+  color: #394f6c;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 50%;
+  margin: 3px;
+  box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, .5);
+}
+.row .number.breackpoint {
+  background: #ffa3af;
+}
+.row .string {
+  word-break: break-all;
+}
+.delay-settings {
+  margin-top: 10px;
+}
+
 

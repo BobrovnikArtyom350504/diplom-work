@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typescript_map_1 = require("typescript-map");
-var main_loop_logger_1 = require("./main-loop-logger");
 var CodeInterpreter = (function () {
     function CodeInterpreter(id, script, onExecuteCallback, availableVariables) {
         this.id = id;
@@ -18,6 +17,18 @@ var CodeInterpreter = (function () {
         if (script)
             this.processScript();
     }
+    CodeInterpreter.prototype.setOnStepExecuted = function (callback) {
+        this.stepCallback = callback;
+    };
+    CodeInterpreter.prototype.getCurrentRow = function () {
+        return this.currentRow;
+    };
+    CodeInterpreter.prototype.removeOnStepExecutedCallback = function () {
+        this.stepCallback = function () { };
+    };
+    CodeInterpreter.prototype.onStepExecute = function (stringNumber) {
+        this.stepCallback(stringNumber);
+    };
     CodeInterpreter.prototype.addVariables = function (availableVariables) {
         var _this = this;
         availableVariables.forEach(function (value, varName) {
@@ -57,18 +68,30 @@ var CodeInterpreter = (function () {
         this.executedBreakpoints = [];
         this.processScript();
         this.currentRow = 0;
+        this.onStepExecute(this.currentRow);
         this.run();
     };
+    CodeInterpreter.prototype.initScript = function () {
+        this.executedBreakpoints = [];
+        this.processScript();
+        this.currentRow = 0;
+        this.onStepExecute(this.currentRow);
+    };
+    CodeInterpreter.prototype.getBreakpoints = function () {
+        return this.breakpoints;
+    };
     CodeInterpreter.prototype.doStep = function () {
+        this.isStopped = true;
         if (this.isStopped) {
             if (this.breakpoints.indexOf(this.currentRow) >= 0)
                 this.executedBreakpoints.push(this.currentRow);
             var step = this.processedScript.next();
-            this.currentRow++;
-            main_loop_logger_1.MainLoopLogger.addLog(this.id, step.value, this.currentRow);
             if (step.done) {
-                main_loop_logger_1.MainLoopLogger.clearLogs(this.id);
-                this.onExecuteCallback();
+                this.initScript();
+            }
+            else {
+                this.currentRow++;
+                this.onStepExecute(this.currentRow);
             }
         }
     };
@@ -87,12 +110,11 @@ var CodeInterpreter = (function () {
             setTimeout(function () {
                 if (!_this.isStopped) {
                     var step = _this.processedScript.next();
-                    main_loop_logger_1.MainLoopLogger.addLog(_this.id, step.value, _this.currentRow);
                     _this.currentRow++;
+                    _this.onStepExecute(_this.currentRow);
                     if (!step.done)
                         _this.doSteps();
                     else {
-                        main_loop_logger_1.MainLoopLogger.clearLogs(_this.id);
                         _this.onExecuteCallback();
                     }
                 }
