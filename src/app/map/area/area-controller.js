@@ -61,6 +61,10 @@ var AreaController = (function () {
             }
         this.updateView(newBlocksCoordinates);
     };
+    AreaController.prototype.getRocks = function () {
+        var rocks = this.rocks.map(function (rockController) { return rockController.rock; });
+        return rocks;
+    };
     return AreaController;
 }());
 exports.AreaController = AreaController;

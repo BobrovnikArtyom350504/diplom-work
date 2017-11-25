@@ -35,10 +35,14 @@
                                                             maxHeight.value, layerCount.value)">
             <md-icon>done</md-icon>
           </button>
+           <input #uploadFile type="file" (change)="handleMapJsonFile(uploadFile.files[0])">
+          <button class="right" md-fab color="primary" (click)="triggerUpload(uploadFile)">
+            <md-icon>attach_file</md-icon>
+          </button>
         </div>
       </div>
     </md-card>
-    <md-card>
+    <md-card *ngIf="map">
       <md-card-title>
         Rock constructor
         <button (click)="toggleRockConstructorVisibility()" class="right" md-icon-button>
@@ -100,7 +104,7 @@
         </div>
       </div>
     </md-card>
-    <md-card>
+    <md-card *ngIf="map">
       <md-card-title>
         Robots constructor
         <button (click)="toggleRobotsConstructorVisibility()" class="right" md-icon-button>
@@ -158,6 +162,8 @@
   </div>
   <div #wrapper class="canvas-wrapper">
     <canvas #canvas [width]="wrapper.offsetWidth" [height]="canvas.width * 0.75"></canvas>
+    <button md-raised-button color="primary" class="md-raised md-primary" *ngIf="map" (click)="saveMap(mapFileLink)">Save Map</button>
+    <a #mapFileLink></a>
   </div>
 </div>
 <template #expandMore>

@@ -101,6 +101,37 @@ var MapConstructorComponent = (function () {
         this.map = new map_1.Map(this.width, this.length, this.maxHeight, this.layersCount, this.canvasContext);
         app_state_1.default.map = this.map;
     };
+    MapConstructorComponent.prototype.getMapData = function () {
+        var map = this.map.getSettings();
+        var rocks = this.map.getRocks();
+        var mapData = {
+            map: map,
+            rocks: rocks
+        };
+        return mapData;
+    };
+    MapConstructorComponent.prototype.saveMap = function (linkReference) {
+        var data = JSON.stringify(this.getMapData());
+        var file = new Blob([data], { type: "application/json" });
+        var fileName = "map.json";
+        linkReference.href = URL.createObjectURL(file);
+        linkReference.download = fileName;
+        linkReference.click();
+    };
+    MapConstructorComponent.prototype.triggerUpload = function (uploaderElement) {
+        uploaderElement.click();
+    };
+    MapConstructorComponent.prototype.handleMapJsonFile = function (file) {
+        var _this = this;
+        var fileReader = new FileReader();
+        fileReader.onload = (function (event) {
+            _this.importMapData(JSON.parse(event.target.result));
+        });
+        fileReader.readAsText(file);
+    };
+    MapConstructorComponent.prototype.importMapData = function (mapData) {
+        this.createMap(mapData.map.width, mapData.map.length, mapData.map.maxHeight, mapData.map.layersCount);
+    };
     return MapConstructorComponent;
 }());
 __decorate([

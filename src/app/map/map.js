@@ -31,6 +31,20 @@ var Map = (function () {
     Map.prototype.popObject = function () {
         this.objects.pop();
     };
+    Map.prototype.getSettings = function () {
+        var map = this;
+        var settings = {
+            width: map.width,
+            length: map.length,
+            maxHeight: map.maxHeight,
+            layersCount: map.layerNumber
+        };
+        return settings;
+    };
+    Map.prototype.getRocks = function () {
+        var rocks = this.areaController.getRocks();
+        return rocks;
+    };
     return Map;
 }());
 exports.Map = Map;

@@ -70,6 +70,13 @@ export class AreaController {
                 });
             }
         this.updateView(newBlocksCoordinates);
+    }
+
+    getRocks() {
+
+      let rocks = this.rocks.map(rockController => rockController.rock);
+
+      return rocks;
 
     }
 }

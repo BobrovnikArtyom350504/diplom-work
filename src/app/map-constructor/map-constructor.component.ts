@@ -4,6 +4,7 @@ import {Rock} from "../map/area/rock/rock";
 import {MapObject} from "../map/map-object/map-object";
 import appState from "../app-state/app-state";
 import {Geolocation} from "../map/geolocation";
+import MapData from '../map/map-data';
 
 @Component({
   templateUrl: './map-constructor.component.html',
@@ -121,5 +122,59 @@ export class MapConstructorComponent implements AfterViewInit{
       this.canvasContext
     );
     appState.map = this.map;
+  }
+
+  getMapData(): MapData {
+
+    const map = this.map.getSettings();
+    const rocks = this.map.getRocks();
+    const mapData: MapData = {
+      map: map,
+      rocks: rocks
+    };
+
+    return mapData;
+
+  }
+
+  saveMap(linkReference) {
+
+    const data= JSON.stringify(this.getMapData());
+
+    const file = new Blob([data], {type: "application/json"});
+    const fileName = "map.json";
+
+    linkReference.href = URL.createObjectURL(file);
+    linkReference.download = fileName;
+
+    linkReference.click();
+
+  }
+
+  triggerUpload(uploaderElement) {
+
+    uploaderElement.click();
+
+  }
+
+  handleMapJsonFile(file) {
+
+    let fileReader = new FileReader();
+    fileReader.onload = ((event: Event) => {
+      this.importMapData(JSON.parse(event.target.result));
+    });
+    fileReader.readAsText(file);
+
+  }
+
+  importMapData(mapData: MapData) {
+
+    this.createMap(
+      mapData.map.width,
+      mapData.map.length,
+      mapData.map.maxHeight,
+      mapData.map.layersCount
+    );
+
   }
 }

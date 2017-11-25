@@ -2,6 +2,7 @@ import {Rock} from './area/rock/rock';
 import {AreaController} from './area/area-controller';
 import {MapObjectController} from './map-object/map-object-controller';
 import {MapObject} from './map-object/map-object';
+import MapSettings from  './map-settings';
 
 export class Map {
     public areaController: AreaController;
@@ -39,5 +40,27 @@ export class Map {
 
     popObject() {
       this.objects.pop();
+    }
+
+    getSettings(): MapSettings {
+
+      let map = this;
+      const settings = {
+        width: map.width,
+        length: map.length,
+        maxHeight: map.maxHeight,
+        layersCount: map.layerNumber
+      };
+
+      return settings;
+
+    }
+
+    getRocks(): Rock[] {
+
+      let rocks = this.areaController.getRocks();
+
+      return rocks;
+
     }
 }
