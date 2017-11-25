@@ -130,7 +130,34 @@ var MapConstructorComponent = (function () {
         fileReader.readAsText(file);
     };
     MapConstructorComponent.prototype.importMapData = function (mapData) {
+        var _this = this;
         this.createMap(mapData.map.width, mapData.map.length, mapData.map.maxHeight, mapData.map.layersCount);
+        mapData.rocks.forEach(function (rock) {
+            _this.addRock(rock);
+        });
+    };
+    MapConstructorComponent.prototype.saveRobotsConfig = function (linkReference) {
+        var data = JSON.stringify(this.map.getObjects());
+        var file = new Blob([data], { type: "application/json" });
+        var fileName = "robots.json";
+        linkReference.href = URL.createObjectURL(file);
+        linkReference.download = fileName;
+        linkReference.click();
+    };
+    MapConstructorComponent.prototype.handleRobotsJsonFile = function (file) {
+        var _this = this;
+        var fileReader = new FileReader();
+        fileReader.onload = (function (event) {
+            _this.importRobotsData(JSON.parse(event.target.result));
+        });
+        fileReader.readAsText(file);
+    };
+    MapConstructorComponent.prototype.importRobotsData = function (robots) {
+        var _this = this;
+        console.log(robots);
+        robots.forEach(function (robot) {
+            _this.addRobot(robot.maxInclineAngle, robot.size, robot.geolocation);
+        });
     };
     return MapConstructorComponent;
 }());

@@ -3,6 +3,7 @@ import {AreaController} from './area/area-controller';
 import {MapObjectController} from './map-object/map-object-controller';
 import {MapObject} from './map-object/map-object';
 import MapSettings from  './map-settings';
+import {Robot} from "../robot/robot";
 
 export class Map {
     public areaController: AreaController;
@@ -61,6 +62,14 @@ export class Map {
       let rocks = this.areaController.getRocks();
 
       return rocks;
+
+    }
+
+    getObjects():Robot[] {
+
+      let objects = this.objects.map(objectController => objectController.object);
+
+      return objects;
 
     }
 }

@@ -5,6 +5,7 @@ import {MapObject} from "../map/map-object/map-object";
 import appState from "../app-state/app-state";
 import {Geolocation} from "../map/geolocation";
 import MapData from '../map/map-data';
+import {Robot} from "../robot/robot";
 
 @Component({
   templateUrl: './map-constructor.component.html',
@@ -176,5 +177,45 @@ export class MapConstructorComponent implements AfterViewInit{
       mapData.map.layersCount
     );
 
+    mapData.rocks.forEach(rock => {
+      this.addRock(rock);
+    });
+
   }
+
+
+  saveRobotsConfig(linkReference) {
+
+    const data= JSON.stringify(this.map.getObjects());
+
+    const file = new Blob([data], {type: "application/json"});
+    const fileName = "robots.json";
+
+    linkReference.href = URL.createObjectURL(file);
+    linkReference.download = fileName;
+
+    linkReference.click();
+
+  }
+
+  handleRobotsJsonFile(file) {
+
+    let fileReader = new FileReader();
+    fileReader.onload = ((event: Event) => {
+      this.importRobotsData(JSON.parse(event.target.result));
+    });
+    fileReader.readAsText(file);
+
+  }
+
+  importRobotsData(robots: MapObject[]) {
+
+    console.log(robots);
+
+    robots.forEach(robot => {
+      this.addRobot(robot.maxInclineAngle, robot.size, robot.geolocation);
+    })
+
+  }
+
 }

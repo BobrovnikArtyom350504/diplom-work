@@ -45,6 +45,10 @@ var Map = (function () {
         var rocks = this.areaController.getRocks();
         return rocks;
     };
+    Map.prototype.getObjects = function () {
+        var objects = this.objects.map(function (objectController) { return objectController.object; });
+        return objects;
+    };
     return Map;
 }());
 exports.Map = Map;

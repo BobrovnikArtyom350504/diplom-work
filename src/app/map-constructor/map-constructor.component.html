@@ -156,6 +156,10 @@
           <button md-fab color="primary" (click)="deleteRobot()">
             <md-icon>delete</md-icon>
           </button>
+          <input #uploadRobots type="file" (change)="handleRobotsJsonFile(uploadRobots.files[0])">
+          <button class="right" md-fab color="primary" (click)="triggerUpload(uploadRobots)">
+            <md-icon>attach_file</md-icon>
+          </button>
         </div>
       </div>
     </md-card>
@@ -164,6 +168,8 @@
     <canvas #canvas [width]="wrapper.offsetWidth" [height]="canvas.width * 0.75"></canvas>
     <button md-raised-button color="primary" class="md-raised md-primary" *ngIf="map" (click)="saveMap(mapFileLink)">Save Map</button>
     <a #mapFileLink></a>
+    <button md-raised-button color="primary" class="md-raised md-primary" *ngIf="map" (click)="importRobotsData(robotsFileLink)">Save Robots configs</button>
+    <a #robotsFileLink></a>
   </div>
 </div>
 <template #expandMore>
