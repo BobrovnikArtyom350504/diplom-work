@@ -4,7 +4,6 @@ var MainLoopLogger = (function () {
     function MainLoopLogger() {
     }
     MainLoopLogger.getCurrentRow = function (id) {
-        debugger;
         if (!this.loops[id])
             this.loops[id] = { currentRow: 0 };
         return this.loops[id];

@@ -24,4 +24,5 @@ export class MathService {
         rotatedPoint.y = MathService.getSinByDegree(angle) * x + MathService.getCosByDegree(angle) * y;
         return rotatedPoint;
     }
+
 }

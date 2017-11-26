@@ -38,7 +38,7 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
   }
 
   onRowChange(rowNumber: number) {
-    // debugger
+
     this.currentRow = rowNumber;
     let currentRow = document.querySelector('.row.current');
     if(currentRow) currentRow.classList.remove('current');

@@ -40,7 +40,6 @@ var SimulatorComponent = (function () {
         main_loop_1.MainLoop.setOnStepCallback(0, this.onRowChange);
     };
     SimulatorComponent.prototype.onRowChange = function (rowNumber) {
-        // debugger
         this.currentRow = rowNumber;
         var currentRow = document.querySelector('.row.current');
         if (currentRow)

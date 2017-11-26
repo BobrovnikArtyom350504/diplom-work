@@ -210,8 +210,6 @@ export class MapConstructorComponent implements AfterViewInit{
 
   importRobotsData(robots: MapObject[]) {
 
-    console.log(robots);
-
     robots.forEach(robot => {
       this.addRobot(robot.maxInclineAngle, robot.size, robot.geolocation);
     })

@@ -37,6 +37,8 @@
     "angular-in-memory-web-api": "~0.3.0",
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
+    "rectangles": "0.0.1",
+    "rectangles-intersect": "0.0.0",
     "rxjs": "5.0.1",
     "systemjs": "0.19.40",
     "typescript-map": "0.0.3",

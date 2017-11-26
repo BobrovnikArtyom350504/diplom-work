@@ -154,7 +154,6 @@ var MapConstructorComponent = (function () {
     };
     MapConstructorComponent.prototype.importRobotsData = function (robots) {
         var _this = this;
-        console.log(robots);
         robots.forEach(function (robot) {
             _this.addRobot(robot.maxInclineAngle, robot.size, robot.geolocation);
         });

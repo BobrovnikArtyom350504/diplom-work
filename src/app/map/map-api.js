@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var math_service_1 = require("../services/math.service");
+var square_math_service_1 = require("../services/square-math.service");
 var MapApi = (function () {
     function MapApi(map) {
         this.map = map;
     }
     MapApi.prototype.move = function (id, speed) {
-        debugger;
         var position = this.getMaxPosition(id, speed);
         this.map.areaController.redraw();
         this.map.objects[id].move(position.x, position.y);
@@ -32,7 +32,7 @@ var MapApi = (function () {
                 else
                     smth -= 1 / resistance;
                 if (smth >= 0) {
-                    if (this.getInclineAngle(id, angle, offsetX * pixels, offsetY * pixels) < maxInclineAngle) {
+                    if (this.getInclineAngle(id, angle, offsetX * pixels, offsetY * pixels) < maxInclineAngle && !this.isIntersectRobots(id, angle, offsetX, offsetY)) {
                         position.y += offsetY;
                         position.x += offsetX;
                         pixels++;
@@ -47,6 +47,35 @@ var MapApi = (function () {
             }
         }
         return position;
+    };
+    MapApi.prototype.isIntersectRobots = function (id, angle, offsetX, offsetY) {
+        var _this = this;
+        debugger;
+        var isIntersect = false;
+        var robotRect = this.getRobotRect(id, angle, offsetX, offsetY);
+        this.map.objects.forEach(function (objectController, index) {
+            if (id !== index) {
+                if (square_math_service_1.default.isIntersect(_this.getRobotRect(index), robotRect)) {
+                    isIntersect = true;
+                }
+            }
+        });
+        return isIntersect;
+    };
+    MapApi.prototype.getRobotRect = function (id, angle, offsetX, offsetY) {
+        if (offsetX === void 0) { offsetX = 0; }
+        if (offsetY === void 0) { offsetY = 0; }
+        var robot = this.map.objects[id].object;
+        angle = angle || robot.geolocation.angle;
+        var robotRect = {
+            cenrer: {
+                x: robot.geolocation.x += offsetX,
+                y: robot.geolocation.y += offsetY
+            },
+            angle: angle,
+            size: robot.size
+        };
+        return robotRect;
     };
     MapApi.prototype.isInMap = function (id, angle, offsetX, offsetY) {
         if (offsetX === void 0) { offsetX = 0; }

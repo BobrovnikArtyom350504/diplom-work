@@ -1,8 +1,9 @@
 import {Map} from "./map";
-import {Direction} from "./direction";
 import {MathService} from "../services/math.service";
 import {AreaBlock} from "./area/area-block";
 import {Position} from "./position";
+import SquaerService from '../services/square-math.service';
+import {MapObject} from "./map-object/map-object";
 
 export class MapApi {
     constructor(
@@ -11,7 +12,6 @@ export class MapApi {
     }
 
     move(id: number, speed: number) {
-        debugger
         let position = this.getMaxPosition(id, speed);
         this.map.areaController.redraw();
         this.map.objects[id].move(position.x, position.y);
@@ -39,11 +39,10 @@ export class MapApi {
                 else
                     smth -= 1 / resistance;
                 if(smth >= 0) {
-                    if (
-                        this.getInclineAngle(id, angle, offsetX * pixels, offsetY * pixels) < maxInclineAngle) {
-                        position.y += offsetY;
-                        position.x += offsetX;
-                        pixels ++;
+                    if (this.getInclineAngle(id, angle, offsetX * pixels, offsetY * pixels) < maxInclineAngle && !this.isIntersectRobots(id, angle, offsetX, offsetY)) {
+                      position.y += offsetY;
+                      position.x += offsetX;
+                      pixels ++;
                     }
                     else {
                         return position;
@@ -54,6 +53,43 @@ export class MapApi {
             }
         }
         return position;
+    }
+
+    isIntersectRobots(id, angle, offsetX, offsetY) {
+          debugger
+
+      let isIntersect = false;
+
+      const robotRect = this.getRobotRect(id, angle, offsetX, offsetY);
+
+      this.map.objects.forEach((objectController, index) => {
+        if (id !== index) {
+          if(SquaerService.isIntersect(this.getRobotRect(index), robotRect)) {
+            isIntersect = true;
+          }
+        }
+      });
+
+      return isIntersect;
+
+    }
+
+    getRobotRect(id, angle?, offsetX = 0, offsetY = 0) {
+
+      const robot = this.map.objects[id].object;
+      angle = angle || robot.geolocation.angle;
+
+      const robotRect = {
+        cenrer: {
+          x: robot.geolocation.x += offsetX,
+          y: robot.geolocation.y += offsetY
+        },
+        angle: angle,
+        size: robot.size
+      };
+
+      return robotRect;
+
     }
 
     isInMap(id: number, angle?: number, offsetX: number = 0, offsetY: number = 0) {
