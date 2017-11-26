@@ -9,7 +9,6 @@ var MainLoopLogger = (function () {
         return this.loops[id];
     };
     MainLoopLogger.setCurrentRow = function (id, stringNumber) {
-        debugger;
         if (this.loops[id])
             this.loops[id].currentRow = stringNumber;
         else

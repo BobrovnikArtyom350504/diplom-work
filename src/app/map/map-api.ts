@@ -56,7 +56,6 @@ export class MapApi {
     }
 
     isIntersectRobots(id, angle, offsetX, offsetY) {
-          debugger
 
       let isIntersect = false;
 

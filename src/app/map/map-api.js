@@ -50,7 +50,6 @@ var MapApi = (function () {
     };
     MapApi.prototype.isIntersectRobots = function (id, angle, offsetX, offsetY) {
         var _this = this;
-        debugger;
         var isIntersect = false;
         var robotRect = this.getRobotRect(id, angle, offsetX, offsetY);
         this.map.objects.forEach(function (objectController, index) {

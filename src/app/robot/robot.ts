@@ -21,7 +21,7 @@ export class Robot {
         this.movement.move = (speed: number) => mapApi.move(id, +speed);
         this.movement.rotateTo = (angle: number) => mapApi.rotate(id, +angle);
         this.movement.rotateOn = (angleOffset: number) => mapApi.rotateOn(id, +angleOffset);
-        this.getLocation = () => mapApi.getLocation(  id);
+        this.getLocation = () => mapApi.getLocation(id);
         this.communication = new RobotCommunication(id);
     }
 }

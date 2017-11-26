@@ -5,6 +5,7 @@ import {Robot} from "../robot/robot";
 import {MainLoop} from "../code-interpreter/main-loop";
 import { TSMap } from "typescript-map";
 import {MapApi} from "../map/map-api";
+import {root} from "rxjs/util/root";
 
 @Component({
   templateUrl: './simulator.component.html',
@@ -24,6 +25,14 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
 
 
   ngOnInit() {
+
+    window.targets = [];
+    window.targets.push({x: 500, y: 300});
+    window.targets.push({x: 10, y: 10});
+    window.targets.push({x: 600, y: 300});
+    window.targets.push({x: 300, y: 600});
+    window.targets.push({x: 300, y: 300});
+
     if(this.scripts.length)
       this.setCurrentScriptRows();
     this.mapApi = new MapApi(this.map);
@@ -31,6 +40,7 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
       this.robots.push(new Robot(this.mapApi));
       let variable =  new TSMap<string, any>();
       variable.set('robot', this.robots[id]);
+      variable.set('target', window.targets[id]);
       MainLoop.addLoop(id, script, variable);
       MainLoop.setOnStepCallback(id, ()=>{});
     });
@@ -102,3 +112,9 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
     this.setCurrentRobotBreakpoints();
   }
 }
+
+
+
+
+
+
