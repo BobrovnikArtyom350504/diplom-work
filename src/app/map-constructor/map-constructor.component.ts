@@ -138,7 +138,7 @@ export class MapConstructorComponent implements AfterViewInit{
 
   }
 
-  saveMap(linkReference) {
+  saveMap(linkReference: any) {
 
     const data= JSON.stringify(this.getMapData());
 
@@ -152,16 +152,16 @@ export class MapConstructorComponent implements AfterViewInit{
 
   }
 
-  triggerUpload(uploaderElement) {
+  triggerUpload(uploaderElement: any) {
 
     uploaderElement.click();
 
   }
 
-  handleMapJsonFile(file) {
+  handleMapJsonFile(file: any) {
 
     let fileReader = new FileReader();
-    fileReader.onload = ((event: Event) => {
+    fileReader.onload = ((event: any) => {
       this.importMapData(JSON.parse(event.target.result));
     });
     fileReader.readAsText(file);
@@ -184,7 +184,7 @@ export class MapConstructorComponent implements AfterViewInit{
   }
 
 
-  saveRobotsConfig(linkReference) {
+  saveRobotsConfig(linkReference: any) {
 
     const data= JSON.stringify(this.map.getObjects());
 
@@ -198,10 +198,10 @@ export class MapConstructorComponent implements AfterViewInit{
 
   }
 
-  handleRobotsJsonFile(file) {
+  handleRobotsJsonFile(file: any) {
 
     let fileReader = new FileReader();
-    fileReader.onload = ((event: Event) => {
+    fileReader.onload = ((event: any) => {
       this.importRobotsData(JSON.parse(event.target.result));
     });
     fileReader.readAsText(file);

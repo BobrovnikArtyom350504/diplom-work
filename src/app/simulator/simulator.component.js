@@ -27,12 +27,12 @@ var SimulatorComponent = (function () {
     }
     SimulatorComponent.prototype.ngOnInit = function () {
         var _this = this;
-        window.targets = [];
-        window.targets.push({ x: 500, y: 300 });
-        window.targets.push({ x: 10, y: 10 });
-        window.targets.push({ x: 600, y: 300 });
-        window.targets.push({ x: 300, y: 600 });
-        window.targets.push({ x: 300, y: 300 });
+        window['targets'] = [];
+        window['targets'].push({ x: 780, y: 580 });
+        window['targets'].push({ x: 20, y: 580 });
+        window['targets'].push({ x: 20, y: 20 });
+        window['targets'].push({ x: 780, y: 20 });
+        window['targets'].push({ x: 300, y: 300 });
         if (this.scripts.length)
             this.setCurrentScriptRows();
         this.mapApi = new map_api_1.MapApi(this.map);
@@ -40,7 +40,7 @@ var SimulatorComponent = (function () {
             _this.robots.push(new robot_1.Robot(_this.mapApi));
             var variable = new typescript_map_1.TSMap();
             variable.set('robot', _this.robots[id]);
-            variable.set('target', window.targets[id]);
+            variable.set('target', window['targets'][id]);
             main_loop_1.MainLoop.addLoop(id, script, variable);
             main_loop_1.MainLoop.setOnStepCallback(id, function () { });
         });

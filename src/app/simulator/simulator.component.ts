@@ -26,12 +26,12 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
 
   ngOnInit() {
 
-    window.targets = [];
-    window.targets.push({x: 500, y: 300});
-    window.targets.push({x: 10, y: 10});
-    window.targets.push({x: 600, y: 300});
-    window.targets.push({x: 300, y: 600});
-    window.targets.push({x: 300, y: 300});
+    window['targets'] = [];
+    window['targets'].push({x: 780, y: 580});
+    window['targets'].push({x: 20, y: 580});
+    window['targets'].push({x: 20, y: 20});
+    window['targets'].push({x: 780, y: 20});
+    window['targets'].push({x: 300, y: 300});
 
     if(this.scripts.length)
       this.setCurrentScriptRows();
@@ -40,7 +40,7 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
       this.robots.push(new Robot(this.mapApi));
       let variable =  new TSMap<string, any>();
       variable.set('robot', this.robots[id]);
-      variable.set('target', window.targets[id]);
+      variable.set('target', window['targets'][id]);
       MainLoop.addLoop(id, script, variable);
       MainLoop.setOnStepCallback(id, ()=>{});
     });

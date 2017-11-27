@@ -65,7 +65,7 @@ export class Map {
 
     }
 
-    getObjects():Robot[] {
+    getObjects():MapObject[] {
 
       let objects = this.objects.map(objectController => objectController.object);
 

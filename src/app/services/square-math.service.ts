@@ -4,7 +4,7 @@ import {Direction} from "../map/direction";
 
 export default class SquareMathService {
 
-  static getVertex(square: Square, verticalDirection, horizontalDirection) {
+  static getVertex(square: Square, verticalDirection: any, horizontalDirection: any) {
 
     const center = square.cenrer;
     const size = square.size;
@@ -65,7 +65,7 @@ export default class SquareMathService {
     const vertices1 = this.getVertices(square1).map(vertex => [vertex.position.x, vertex.position.y]);
     const vertices2 = this.getVertices(square2).map(vertex => [vertex.position.x, vertex.position.y]);
 
-    const isIntersect = window.rectanglesIntersect(vertices1, vertices2);
+    const isIntersect = window['rectanglesIntersect'](vertices1, vertices2);
 
     return isIntersect;
 

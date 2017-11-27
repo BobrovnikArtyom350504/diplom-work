@@ -55,7 +55,7 @@ export class MapApi {
         return position;
     }
 
-    isIntersectRobots(id, angle, offsetX, offsetY) {
+    isIntersectRobots(id: number, angle: number, offsetX: number, offsetY: number) {
 
       let isIntersect = false;
 
@@ -73,7 +73,7 @@ export class MapApi {
 
     }
 
-    getRobotRect(id, angle?, offsetX = 0, offsetY = 0) {
+    getRobotRect(id: number, angle?: number, offsetX: number = 0, offsetY: number = 0) {
 
       const robot = this.map.objects[id].object;
       angle = angle || robot.geolocation.angle;

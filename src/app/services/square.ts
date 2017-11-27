@@ -1,8 +1,10 @@
-export default interface Square {
+interface Square {
   cenrer: {
     x: number,
     y: number
-  },
-  angle: number,
-  size: number
+  };
+  angle: number;
+  size: number;
 }
+
+export default Square;
