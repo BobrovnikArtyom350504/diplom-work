@@ -39,6 +39,8 @@ while(true) {
         robot.movement.rotateTo(0);
         robot.movement.move(5);
       }
+      pos = robot.getLocation();
+      if(previousPosition.x === pos.x && previousPosition.y===pos.y) {console.log('aa'); robot.movement.rotateTo(225); robot.movement.move(15); robot.movement.rotateTo(90); robot.movement.move(15);}
     } else if(angleInDegree > 90 && angleInDegree <= 180) { robot.movement.rotateTo(90);
       robot.movement.move(5);
       let pos = robot.getLocation();
@@ -46,6 +48,8 @@ while(true) {
         robot.movement.rotateTo(180);
         robot.movement.move(5);
       }
+      pos = robot.getLocation();
+      if(previousPosition.x === pos.x && previousPosition.y===pos.y) {robot.movement.rotateTo(315); robot.movement.move(15); robot.movement.rotateTo(90); robot.movement.move(15);}
     } else if(angleInDegree > 180 && angleInDegree <= 270) { robot.movement.rotateTo(180);
       robot.movement.move(5);
       let pos = robot.getLocation();
@@ -53,6 +57,8 @@ while(true) {
         robot.movement.rotateTo(270);
         robot.movement.move(5);
       }
+      pos = robot.getLocation();
+      if(previousPosition.x === pos.x && previousPosition.y===pos.y) {robot.movement.rotateTo(45); robot.movement.move(15); robot.movement.rotateTo(270); robot.movement.move(15);}
     } else if(angleInDegree > 270) { robot.movement.rotateTo(0);
       robot.movement.move(5);
       let pos = robot.getLocation();
@@ -60,6 +66,8 @@ while(true) {
         robot.movement.rotateTo(270);
         robot.movement.move(5);
       }
+      pos = robot.getLocation();
+      if(previousPosition.x === pos.x && previousPosition.y===pos.y) {robot.movement.rotateTo(135); robot.movement.move(15); robot.movement.rotateTo(270); robot.movement.move(15);}
     }
 
   }

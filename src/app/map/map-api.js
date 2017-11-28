@@ -101,7 +101,7 @@ var MapApi = (function () {
         var isValidRotate = true;
         if (!this.isInMap(id, angle))
             isValidRotate = false;
-        if (this.getInclineAngle(id, angle) > this.map.objects[id].object.maxInclineAngle)
+        if (this.getInclineAngle(id, angle) > this.map.objects[id].object.maxInclineAngle && this.isIntersectRobots(id, angle, 0, 0))
             isValidRotate = false;
         if (isValidRotate) {
             this.map.areaController.redraw();
