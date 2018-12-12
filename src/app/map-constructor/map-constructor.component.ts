@@ -5,7 +5,6 @@ import {MapObject} from "../map/map-object/map-object";
 import appState from "../app-state/app-state";
 import {Geolocation} from "../map/geolocation";
 import MapData from '../map/map-data';
-import {Robot} from "../robot/robot";
 
 @Component({
   templateUrl: './map-constructor.component.html',
@@ -122,6 +121,7 @@ export class MapConstructorComponent implements AfterViewInit{
       this.layersCount,
       this.canvasContext
     );
+
     appState.map = this.map;
   }
 

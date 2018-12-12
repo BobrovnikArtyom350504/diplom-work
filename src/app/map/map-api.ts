@@ -3,7 +3,8 @@ import {MathService} from "../services/math.service";
 import {AreaBlock} from "./area/area-block";
 import {Position} from "./position";
 import SquaerService from '../services/square-math.service';
-import {MapObject} from "./map-object/map-object";
+import { MapMarkType } from './map-mark/map-mark-type';
+import { MapMark } from './map-mark/map-mark';
 
 export class MapApi {
     constructor(
@@ -14,6 +15,7 @@ export class MapApi {
     move(id: number, speed: number) {
         let position = this.getMaxPosition(id, speed);
         this.map.areaController.redraw();
+        this.map.mapMarks.getAllMarks().forEach(mark => { mark.render(); });
         this.map.objects[id].move(position.x, position.y);
     }
 
@@ -117,6 +119,7 @@ export class MapApi {
             isValidRotate = false;
         if(isValidRotate) {
             this.map.areaController.redraw();
+            this.map.mapMarks.getAllMarks().forEach(mark => { mark.render(); });
             this.map.objects[id].rotate(angle);
         }
     }
@@ -178,4 +181,25 @@ export class MapApi {
         return inclineAngle;
     }
 
+    getMarks(type: string) {
+      return this.map.mapMarks.getMarks(type);
+    }
+
+    getNearestMark(position: Position, type: string) {
+      return this.map.mapMarks.getNearest(position, type);
+    }
+
+    addMark(position: Position, type: MapMarkType) {
+      this.map.addMapMark(position, type);
+      this.map.areaController.redraw();
+      this.map.mapMarks.getAllMarks().forEach(mark => { mark.render(); });
+      this.map.objects.forEach(object => { object.view.render(); });
+    }
+
+    removeMark(mark: MapMark) {
+      this.map.mapMarks.removeMark(mark);
+      this.map.areaController.redraw();
+      this.map.mapMarks.getAllMarks().forEach(mark => { mark.render(); });
+      this.map.objects.forEach(object => { object.view.render(); });
+    }
 }

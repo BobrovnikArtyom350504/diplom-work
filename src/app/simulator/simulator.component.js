@@ -15,6 +15,7 @@ var robot_1 = require("../robot/robot");
 var main_loop_1 = require("../code-interpreter/main-loop");
 var typescript_map_1 = require("typescript-map");
 var map_api_1 = require("../map/map-api");
+var map_mark_type_1 = require("../map/map-mark/map-mark-type");
 var SimulatorComponent = (function () {
     function SimulatorComponent() {
         this.map = app_state_1.default.map;
@@ -27,23 +28,28 @@ var SimulatorComponent = (function () {
     }
     SimulatorComponent.prototype.ngOnInit = function () {
         var _this = this;
-        window['targets'] = [];
-        window['targets'].push({ x: 780, y: 580 });
-        window['targets'].push({ x: 20, y: 580 });
-        window['targets'].push({ x: 20, y: 20 });
-        window['targets'].push({ x: 780, y: 20 });
-        window['targets'].push({ x: 300, y: 300 });
         if (this.scripts.length)
             this.setCurrentScriptRows();
         this.mapApi = new map_api_1.MapApi(this.map);
+        var mapApi = this.mapApi;
+        window['mapMarks'] = {
+            removeMark: function (mark) { mapApi.removeMark(mark); },
+            getMark: function (type) { return mapApi.getMarks(type); },
+            getNearest: function (position, type) { return mapApi.getNearestMark(position, type); }
+        };
         this.scripts.forEach(function (script, id) {
             _this.robots.push(new robot_1.Robot(_this.mapApi));
             var variable = new typescript_map_1.TSMap();
             variable.set('robot', _this.robots[id]);
-            variable.set('target', window['targets'][id]);
+            variable.set('mapMarks', window['mapMarks']);
             main_loop_1.MainLoop.addLoop(id, script, variable);
             main_loop_1.MainLoop.setOnStepCallback(id, function () { });
         });
+        var baseMarkType = new map_mark_type_1.MapMarkType('BASE', '#00ffff', 10);
+        this.robots.forEach(function (robot) {
+            _this.mapApi.addMark(robot.getLocation(), baseMarkType);
+        });
+        this.generateTargetMarks(5);
         main_loop_1.MainLoop.setOnStepCallback(0, this.onRowChange);
     };
     SimulatorComponent.prototype.onRowChange = function (rowNumber) {
@@ -73,6 +79,7 @@ var SimulatorComponent = (function () {
         this.canvasContext = canvas.getContext('2d');
         this.map.setCanvasContext(this.canvasContext);
         this.map.areaController.redraw();
+        this.map.mapMarks.getAllMarks().forEach(function (mark) { mark.render(); });
         this.map.objects.forEach(function (object) { return object.view.render(); });
     };
     SimulatorComponent.prototype.setCurrentScriptRows = function () {
@@ -103,6 +110,17 @@ var SimulatorComponent = (function () {
         main_loop_1.MainLoop.setOnStepCallback(this.currentRobotIndex, this.onRowChange);
         this.setCurrentScriptRows();
         this.setCurrentRobotBreakpoints();
+    };
+    SimulatorComponent.prototype.generateTargetMarks = function (count) {
+        var targetMarkType = new map_mark_type_1.MapMarkType('TARGET', '#ffff00', 10);
+        var height = this.map.getSettings().width;
+        var width = this.map.getSettings().length;
+        for (var i = 0; i < count; i++) {
+            this.mapApi.addMark({
+                x: Math.floor(Math.random() * (width + 1)),
+                y: Math.floor(Math.random() * (height + 1))
+            }, targetMarkType);
+        }
     };
     return SimulatorComponent;
 }());

@@ -5,7 +5,10 @@ import {Robot} from "../robot/robot";
 import {MainLoop} from "../code-interpreter/main-loop";
 import { TSMap } from "typescript-map";
 import {MapApi} from "../map/map-api";
-import {root} from "rxjs/util/root";
+import { MapMarkType } from '../map/map-mark/map-mark-type';
+import { Position } from '../map/position';
+import {MapMark} from "../map/map-mark/map-mark";
+
 
 @Component({
   templateUrl: './simulator.component.html',
@@ -25,25 +28,30 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
 
 
   ngOnInit() {
-
-    window['targets'] = [];
-    window['targets'].push({x: 780, y: 580});
-    window['targets'].push({x: 20, y: 580});
-    window['targets'].push({x: 20, y: 20});
-    window['targets'].push({x: 780, y: 20});
-    window['targets'].push({x: 300, y: 300});
-
     if(this.scripts.length)
       this.setCurrentScriptRows();
     this.mapApi = new MapApi(this.map);
+    const mapApi = this.mapApi;
+    window['mapMarks'] = {
+      removeMark: (mark: MapMark) => { mapApi.removeMark(mark); },
+      getMark: (type: string) => mapApi.getMarks(type),
+      getNearest: (position: Position, type: string) => mapApi.getNearestMark(position, type)
+    };
     this.scripts.forEach((script, id) => {
       this.robots.push(new Robot(this.mapApi));
       let variable =  new TSMap<string, any>();
       variable.set('robot', this.robots[id]);
-      variable.set('target', window['targets'][id]);
+      variable.set('mapMarks', window['mapMarks']);
       MainLoop.addLoop(id, script, variable);
       MainLoop.setOnStepCallback(id, ()=>{});
     });
+
+    const baseMarkType = new MapMarkType('BASE', '#00ffff', 10);
+    this.robots.forEach(robot => {
+      this.mapApi.addMark((<Position>robot.getLocation()), baseMarkType);
+    });
+    this.generateTargetMarks(5);
+
     MainLoop.setOnStepCallback(0, this.onRowChange);
   }
 
@@ -76,6 +84,7 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
     this.canvasContext = canvas.getContext('2d');
     this.map.setCanvasContext(this.canvasContext);
     this.map.areaController.redraw();
+    this.map.mapMarks.getAllMarks().forEach(mark => { mark.render(); });
     this.map.objects.forEach(object => object.view.render());
   }
 
@@ -110,6 +119,23 @@ export class SimulatorComponent implements AfterViewChecked, OnInit {
     MainLoop.setOnStepCallback(this.currentRobotIndex, this.onRowChange);
     this.setCurrentScriptRows();
     this.setCurrentRobotBreakpoints();
+  }
+
+  generateTargetMarks(count: number) {
+    const targetMarkType = new MapMarkType('TARGET', '#ffff00', 10);
+    const height = this.map.getSettings().width;
+    const width = this.map.getSettings().length;
+
+
+
+    for (let i = 0; i < count; i++) {
+        this.mapApi.addMark({
+          x: Math.floor(Math.random() * (width + 1)),
+          y: Math.floor(Math.random() * (height + 1))
+        },
+        targetMarkType
+      );
+    }
   }
 }
 

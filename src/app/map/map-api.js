@@ -9,6 +9,7 @@ var MapApi = (function () {
     MapApi.prototype.move = function (id, speed) {
         var position = this.getMaxPosition(id, speed);
         this.map.areaController.redraw();
+        this.map.mapMarks.getAllMarks().forEach(function (mark) { mark.render(); });
         this.map.objects[id].move(position.x, position.y);
     };
     MapApi.prototype.getMaxPosition = function (id, speed) {
@@ -105,6 +106,7 @@ var MapApi = (function () {
             isValidRotate = false;
         if (isValidRotate) {
             this.map.areaController.redraw();
+            this.map.mapMarks.getAllMarks().forEach(function (mark) { mark.render(); });
             this.map.objects[id].rotate(angle);
         }
     };
@@ -163,6 +165,24 @@ var MapApi = (function () {
         else
             inclineAngle = math_service_1.MathService.getDeg(Math.asin((top - bottom) / Math.sqrt(2) * this.map.objects[id].object.size));
         return inclineAngle;
+    };
+    MapApi.prototype.getMarks = function (type) {
+        return this.map.mapMarks.getMarks(type);
+    };
+    MapApi.prototype.getNearestMark = function (position, type) {
+        return this.map.mapMarks.getNearest(position, type);
+    };
+    MapApi.prototype.addMark = function (position, type) {
+        this.map.addMapMark(position, type);
+        this.map.areaController.redraw();
+        this.map.mapMarks.getAllMarks().forEach(function (mark) { mark.render(); });
+        this.map.objects.forEach(function (object) { object.view.render(); });
+    };
+    MapApi.prototype.removeMark = function (mark) {
+        this.map.mapMarks.removeMark(mark);
+        this.map.areaController.redraw();
+        this.map.mapMarks.getAllMarks().forEach(function (mark) { mark.render(); });
+        this.map.objects.forEach(function (object) { object.view.render(); });
     };
     return MapApi;
 }());
